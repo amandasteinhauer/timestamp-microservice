@@ -33,11 +33,9 @@ app.get("/api/:date?", function (req, res) {
   }
 
   if(Number(req.params.date)){
-    console.log('convert to number');
     date = new Date(Number(req.params.date));
   } else {
     date = new Date(req.params.date);
-    console.log(isFinite(date));
     if(!(date instanceof Date) || !isFinite(date)){
       res.json({ error : "Invalid Date" });
     }
