@@ -24,6 +24,28 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// your first API endpoint... 
+app.get("/api/:date?", function (req, res) {
+  let inputDate = req.params.date;
+  if(!inputDate) {
+    const utcStr = new Date().toUTCString();
+    res.json({ unix: Date.now(), utc: utcStr});
+  }
+
+  if(Number(req.params.date)){
+    console.log('convert to number');
+    date = new Date(Number(req.params.date));
+  } else {
+    date = new Date(req.params.date);
+    console.log(isFinite(date));
+    if(!(date instanceof Date) || !isFinite(date)){
+      res.json({ error : "Invalid Date" });
+    }
+  }
+  
+  res.json({unix: Math.floor(date.getTime()), utc: date.toUTCString()});
+  
+});
 
 
 // Listen on port set in environment variable or default to 3000
